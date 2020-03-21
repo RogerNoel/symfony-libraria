@@ -10,11 +10,15 @@
 
 <div class="example-wrapper">
     <h1>Hello {{ controller_name }}! ✅</h1>
+    {% for item in livres %}
+        <div>
+            <h1> {{ item.titre }} </h1>
+            <h3> {{ item.auteur }} </h3>
+            <img src=" {{ item.image }} " alt="">
+            <p> {{ item.prix }} € </p>
+            <hr/>
+        </div>
+    {% endfor %}
 
-    This friendly message is coming from:
-    <ul>
-        <li>Your controller at <code><a href="{{ 'D:/wamp64/www/libraria/src/Controller/LivresController.php'|file_link(0) }}">src/Controller/LivresController.php</a></code></li>
-        <li>Your template at <code><a href="{{ 'D:/wamp64/www/libraria/templates/livres/index.html.twig'|file_link(0) }}">templates/livres/index.html.twig</a></code></li>
-    </ul>
 </div>
 {% endblock %}

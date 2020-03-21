@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Routing\Annotation\Route;
+use App\Entity\Livres;
 
 class LivresController extends AbstractController
 {
@@ -12,8 +13,13 @@ class LivresController extends AbstractController
      */
     public function index()
     {
+        $livres = $this->getDoctrine()
+        ->getRepository(Livres::class)
+        ->findAll();
+
         return $this->render('livres/index.html.twig', [
             'controller_name' => 'LivresController',
+            'livres'=>$livres
         ]);
     }
 }
