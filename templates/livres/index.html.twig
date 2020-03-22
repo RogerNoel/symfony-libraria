@@ -9,16 +9,17 @@
 </style>
 
 <div class="example-wrapper">
-    <h1>Hello {{ controller_name }}! ✅</h1>
+    <h1>Nos livres</h1>
     {% for item in livres %}
         <div>
-            <h1> {{ item.titre }} </h1>
-            <h3> {{ item.auteur }} </h3>
-            <img src=" {{ item.image }} " alt="" height='350' width='250'>
-            <p> {{ item.prix }} € </p>
+            <h2> {{ item.titre }} </h2>
+            <h4> {{ item.auteur }} </h4>
+            <div style="display: inline-block">
+                <img src=" {{ item.image }} " alt="" height='300' width='215'>
+                <p style="text-align: center; font-weight: bold; margin-top: 15px;"> {{ item.prix }} € </p>
+            </div>
             <hr/>
         </div>
     {% endfor %}
-
 </div>
 {% endblock %}
