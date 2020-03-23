@@ -9,12 +9,17 @@
 </style>
 
 <div class="example-wrapper">
-    <h1>Hello {{ controller_name }}! ✅</h1>
-
-    This friendly message is coming from:
-    <ul>
-        <li>Your controller at <code><a href="{{ 'D:/wamp64/www/libraria/src/Controller/BDController.php'|file_link(0) }}">src/Controller/BDController.php</a></code></li>
-        <li>Your template at <code><a href="{{ 'D:/wamp64/www/libraria/templates/bd/index.html.twig'|file_link(0) }}">templates/bd/index.html.twig</a></code></li>
-    </ul>
+    <h1>Nos BD's</h1>
+    {% for item in bds %}
+        <div>
+            <h2> {{ item.titre }} </h2>
+            <h4> {{ item.auteur }} </h4>
+            <div style="display: inline-block">
+                <img src=" {{ item.image }} " alt="" height='300' width='215'>
+                <p style="text-align: center; font-weight: bold; margin-top: 15px;"> {{ item.prix }} € </p>
+            </div>
+            <hr/>
+        </div>
+    {% endfor %}
 </div>
 {% endblock %}

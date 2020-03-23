@@ -18,33 +18,34 @@ class LivresRepository extends ServiceEntityRepository
     {
         parent::__construct($registry, Livres::class);
     }
-
-    // /**
-    //  * @return Livres[] Returns an array of Livres objects
-    //  */
-    /*
-    public function findByExampleField($value)
+    // ici la requête
+    public function findAllLivres(): array
     {
-        return $this->createQueryBuilder('l')
-            ->andWhere('l.exampleField = :val')
-            ->setParameter('val', $value)
-            ->orderBy('l.id', 'ASC')
-            ->setMaxResults(10)
-            ->getQuery()
-            ->getResult()
-        ;
-    }
-    */
+        // automatically knows to select Products
+        // the "p" is an alias you'll use in the rest of the query
+        $listeLivres = $this->createQueryBuilder('p')
+            ->where('p.type = :livre')
+            ->setParameter('livre', 'livre')
+            ->andWhere('p.stock > 0')
+            ->orderBy('p.titre', 'ASC');
 
-    /*
-    public function findOneBySomeField($value): ?Livres
-    {
-        return $this->createQueryBuilder('l')
-            ->andWhere('l.exampleField = :val')
-            ->setParameter('val', $value)
-            ->getQuery()
-            ->getOneOrNullResult()
-        ;
+        $query = $listeLivres->getQuery();
+
+        return $query->execute();
     }
-    */
+
+    public function findAllBD(): array
+    {
+        // automatically knows to select Products
+        // the "p" is an alias you'll use in the rest of the query
+        $listeLivres = $this->createQueryBuilder('p')
+            ->where('p.type = :livre')
+            ->setParameter('livre', 'bd')
+            ->andWhere('p.stock > 0')
+            ->orderBy('p.titre', 'ASC');
+
+        $query = $listeLivres->getQuery();
+
+        return $query->execute();
+    }
 }
