@@ -28,24 +28,18 @@ class LivresRepository extends ServiceEntityRepository
             ->setParameter('livre', 'livre')
             ->andWhere('p.stock > 0')
             ->orderBy('p.titre', 'ASC');
-
         $query = $listeLivres->getQuery();
-
         return $query->execute();
     }
 
     public function findAllBD(): array
     {
-        // automatically knows to select Products
-        // the "p" is an alias you'll use in the rest of the query
         $listeLivres = $this->createQueryBuilder('p')
             ->where('p.type = :livre')
             ->setParameter('livre', 'bd')
             ->andWhere('p.stock > 0')
             ->orderBy('p.titre', 'ASC');
-
         $query = $listeLivres->getQuery();
-
         return $query->execute();
     }
 }
