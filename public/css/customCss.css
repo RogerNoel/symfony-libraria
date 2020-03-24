@@ -1,0 +1,26 @@
+.test {
+    color: red;
+}
+
+/* ------------------------------  */
+.container {
+    width: 92%;
+}
+
+.bd, .livres {
+    border: 1px solid #2C3E50;
+    padding: 15px;
+    margin: 15px;
+    color: #2C3E50;
+    width: 29%;
+    display: inline-block;
+}
+
+.bd-title, .livre-title {
+    font-size: 1.5em;
+    height: 55px;
+}
+
+.bd-auteur, .livre-auteur {
+    font-size: 0.8em;
+}

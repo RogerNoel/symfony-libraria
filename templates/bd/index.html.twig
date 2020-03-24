@@ -3,23 +3,22 @@
 {% block title %}Hello BDController!{% endblock %}
 
 {% block body %}
-<style>
-    .example-wrapper { margin: 1em auto; max-width: 800px; width: 95%; font: 18px/1.5 sans-serif; }
-    .example-wrapper code { background: #F5F5F5; padding: 2px 6px; }
-</style>
-
-<div class="example-wrapper">
+    {# <style>
+        .example-wrapper { margin: 1em auto; max-width: 800px; width: 95%; font: 18px/1.5 sans-serif; }
+        .example-wrapper code { background: #F5F5F5; padding: 2px 6px; }
+    </style> #}
     <h1>Nos BD's</h1>
-    {% for item in bds %}
-        <div>
-            <h2> {{ item.titre }} </h2>
-            <h4> {{ item.auteur }} </h4>
-            <div style="display: inline-block">
-                <img src=" {{ item.image }} " alt="" height='300' width='215'>
-                <p style="text-align: center; font-weight: bold; margin-top: 15px;"> {{ item.prix }} € </p>
+    <div class="container">
+        {% for item in bds %}
+            <div class="bd">
+                <p class = "bd-title"> {{ item.titre }} </p>
+                <p class="bd-auteur"> {{ item.auteur }} </p>
+                <div>
+                    <img src=" {{ item.image }} " alt="" height='300' width='215'>
+                    <hr/>
+                    <p> {{ item.prix }} € </p>
+                </div>
             </div>
-            <hr/>
-        </div>
-    {% endfor %}
-</div>
+        {% endfor %}
+    </div>
 {% endblock %}
