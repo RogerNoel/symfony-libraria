@@ -1,3 +1,6 @@
 sessions: 
 
 https://symfony.com/doc/current/session.html
+
+panier:
+https://www.youtube.com/watch?v=_tWL-QDFuQ4
