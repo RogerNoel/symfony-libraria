@@ -24,3 +24,8 @@
 .bd-auteur, .livre-auteur {
     font-size: 0.8em;
 }
+
+.td-titre {
+    font-size: 1em;
+    color: pink;
+}

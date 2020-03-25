@@ -9,12 +9,38 @@
 </style>
 
 <div class="example-wrapper">
-    <h1>Hello {{ controller_name }}! ✅</h1>
+    <h1>Votre panier</h1>
+    {% if items | length > 0 %} {# filtre qui ne renvoie que la longueur du tableau; si > 0, le panier existe et n'est pas vide #}
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>Titre</th>
+                    <th>Auteur</th>
+                    <th>Prix</th>
+                    <th>Quantité</th>
+                    <th>Total</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for livre in items %}
+                    <tr>
+                        <td style="font-size: 0.8em;"> {{ livre.livre.titre }} </td>
+                        <td style="font-size: 0.7em;"> {{ livre.livre.auteur }} </td>
+                        <td> {{ livre.livre.prix }} </td>
+                        <td> {{ livre.quantite }} </td>
+                        <td> {{ livre.livre.prix * livre.quantite }} </td>
+                        <td> 
+                            <a href="#" class="btn btn-danger btn-sm">
+                                <i class="fas fa-trash">Supprimer</i>
+                            </a> 
+                        </td>
 
-    This friendly message is coming from:
-    <ul>
-        <li>Your controller at <code><a href="{{ 'D:/wamp64/www/libraria/src/Controller/PanierController.php'|file_link(0) }}">src/Controller/PanierController.php</a></code></li>
-        <li>Your template at <code><a href="{{ 'D:/wamp64/www/libraria/templates/panier/index.html.twig'|file_link(0) }}">templates/panier/index.html.twig</a></code></li>
-    </ul>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    {% else %} 
+        <p>Votre panier est vide</p>
+    {% endif %}
 </div>
 {% endblock %}
