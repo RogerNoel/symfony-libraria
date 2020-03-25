@@ -17,7 +17,7 @@
                 <img src=" {{ item.image }} " alt="" height='300' width='215'>
                 <hr/>
                 <p> {{ item.prix }} € </p>
-                <button type="submit">Ajouter au panier</button>
+                <a href=" {{ path("panier_ajouteraupanier", { "id": item.id }) }} " class="btn btn-success">Ajouter</a>
             </div>
             <hr/>
         </div>
