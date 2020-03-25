@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Repository\LivresRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\BrowserKit\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\Session\SessionInterface;
 
@@ -52,4 +53,20 @@ class PanierController extends AbstractController
         $session->set('panier', $panier); // param 1 = session cart, param 2 = updated cart
         return $this->redirectToRoute('panier');
     }
+
+    /**
+     * Undocumented function
+     *
+     * @Route("panier/retirer/{id}", name="panier_retirerdupanier")
+     */
+    public function retirerDuPanier($id, SessionInterface $session){
+        $panier = $session->get('panier', []);
+        if ($panier[$id]) {
+            unset($panier[$id]);
+        }
+
+        $session->set('panier', $panier);
+        return $this->redirectToRoute("panier");
+    }
+
 }

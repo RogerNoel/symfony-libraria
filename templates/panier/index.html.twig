@@ -30,7 +30,7 @@
                         <td> {{ livre.quantite }} </td>
                         <td> {{ livre.livre.prix * livre.quantite }} € </td>
                         <td> 
-                            <a href="#" class="btn btn-danger btn-sm">
+                            <a href=" {{ path("panier_retirerdupanier", {"id": livre.livre.id}) }} " class="btn btn-danger btn-sm">
                                 <i class="fas fa-trash">Supprimer</i>
                             </a> 
                         </td>
@@ -46,6 +46,8 @@
                 </tr>
             </tfoot>
         </table>
+        <a href=" {{ path("livres") }} " class="btn btn-secondary">Reour vers livres</a>
+        <a href=" {{ path("bedes") }} " class="btn btn-secondary">Reour vers BD's</a>
     {% else %} 
         <p>Votre panier est vide</p>
     {% endif %}
