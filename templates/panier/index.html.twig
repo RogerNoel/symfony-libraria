@@ -26,9 +26,9 @@
                     <tr>
                         <td style="font-size: 0.8em;"> {{ livre.livre.titre }} </td>
                         <td style="font-size: 0.7em;"> {{ livre.livre.auteur }} </td>
-                        <td> {{ livre.livre.prix }} </td>
+                        <td> {{ livre.livre.prix }} € </td>
                         <td> {{ livre.quantite }} </td>
-                        <td> {{ livre.livre.prix * livre.quantite }} </td>
+                        <td> {{ livre.livre.prix * livre.quantite }} € </td>
                         <td> 
                             <a href="#" class="btn btn-danger btn-sm">
                                 <i class="fas fa-trash">Supprimer</i>
@@ -38,6 +38,13 @@
                     </tr>
                 {% endfor %}
             </tbody>
+            <tfoot>
+                <tr>
+                    <td colspan="4" class="text-right">Total: </td>
+                    <td> {{ total }} € </td>
+                    <td></td>
+                </tr>
+            </tfoot>
         </table>
     {% else %} 
         <p>Votre panier est vide</p>

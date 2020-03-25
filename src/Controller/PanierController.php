@@ -28,8 +28,16 @@ class PanierController extends AbstractController
                 "quantite" => $quantity // get the quantity already stored as a value in $panier
             ];
         }
+
+        $total = 0;
+        foreach ($livresDatas as $item) {
+            $prixParItem = $item['livre']->getPrix() * $item['quantite']; // actuellement, la quantité est toujours 1 mais ça pourrait changer
+            $total +=   $prixParItem;
+        }
+
         return $this->render('panier/index.html.twig', [
             'items' => $livresDatas,
+            'total' => $total
         ]);
     }
 
