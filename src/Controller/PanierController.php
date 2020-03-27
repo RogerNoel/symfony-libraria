@@ -33,7 +33,6 @@ class PanierController extends AbstractController
      */
     public function ajouterAuPanier($id, PanierServices $panierServices){
         // le code des fonctions a été déplacé vers src/Services/Panier/panierServices.php afin de partager les fonctions partout où c'est nécessaire
-        // dans le cas présent nécessaires en 2 endroits différents: LivresController et BDController
         $panierServices->ajouterAuPanier($id);
         return $this->redirectToRoute('panier');
     }
