@@ -40,12 +40,8 @@ class PanierServices {
     }
 
     public function getPanierDatas() : array {
-        // I need access to session here: HttpFoundation\Session\SessionInterface will provide it
-        // it says ( ... , I want SessionInterface and call it $session)
-        // -> this was found by typing "php bin/console debug:autowiring session" in terminal
         $panier = $this->session->get('panier', []); // looks for any 'panier' data in the session, if not any -> create an empty array (like an empty cart at the store entrance!)
         // at this point, if "panier" exists, it only contains the id of the book and the desired quantity as key=>value id=>quantity
-        // got this from ajouterAuPanier() lower
         // We need the other book's datas to complete cart display for consumer: title, author, price ... ->
         $livresDatas = [];
         foreach ($panier as $id=>$quantity){
