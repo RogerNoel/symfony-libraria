@@ -2,54 +2,39 @@
 
 namespace App\Controller;
 
-use App\Repository\LivresRepository;
+use App\Services\Panier\PanierServices;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Routing\Annotation\Route;
-use Symfony\Component\HttpFoundation\Session\SessionInterface;
 
 class PanierController extends AbstractController
 {
     /**
      * @Route("/panier", name="panier")
      */
-    public function index(SessionInterface $session, LivresRepository $livresRepository)
+    public function index(PanierServices $panierServices)
     {
-        // I need access to session here: HttpFoundation\Session\SessionInterface will provide it
-        // it says ( ... , I want SessionInterface and call it $session)
-        // -> this was found by typing "php bin/console debug:autowiring session" in terminal
-        $panier = $session->get('panier', []); // looks for any 'panier' data in the session, if not any -> create an empty array (like an empty cart at the store entrance!)
-        // at this point, if "panier" exists, it only contains the id of the book and the desired quantity as key=>value id=>quantity
-        // got this from ajouterAuPanier() lower
-        // We need the other book's datas to complete cart display for consumer: title, author, price ... ->
-        $livresDatas = [];
-        foreach ($panier as $id=>$quantity){
-            $livresDatas[] = [
-                "livre" => $livresRepository->find($id), // get all book datas from the book repository
-                "quantite" => $quantity // get the quantity already stored as a value in $panier
-            ];
-        }
+        // $livresDatas = $panierServices->getPanierDatas();
 
-        $total = 0;
-        foreach ($livresDatas as $item) {
-            $prixParItem = $item['livre']->getPrix() * $item['quantite']; // actuellement, la quantité est toujours 1 mais ça pourrait changer
-            $total +=   $prixParItem;
-        }
+        // $prixTotal = $panierServices->prixTotal();
 
-        return $this->render('panier/index.html.twig', [
-            'items' => $livresDatas,
-            'total' => $total
+        // return $this->render('panier/index.html.twig', [
+        //     'items' => $livresDatas,
+        //     'total' => $prixTotal
+        // ]);
+
+        return $this->render('panier/index.html.twig', [ // par rapport aux lignes mises en commentaires, on supprime les variables intermédiaires
+            'items' => $panierServices->getPanierDatas(),
+            'total' => $panierServices->prixTotal()
         ]);
     }
 
     /**
      * @Route("/panier/add/{id}", name="panier_ajouteraupanier")
      */
-    public function ajouterAuPanier($id, SessionInterface $session){
-        $panier = $session->get('panier', []);
-        $panier[$id] = 1; // assigns quantity 1 to the product whose id is in parameter in the cart 
-        // -> this assumes that each second-hand book max stock = 1
-        // panier is updated now but not yet in the session, the next lines does this
-        $session->set('panier', $panier); // param 1 = session cart, param 2 = updated cart
+    public function ajouterAuPanier($id, PanierServices $panierServices){
+        // le code des fonctions a été déplacé vers src/Services/Panier/panierServices.php afin de partager les fonctions partout où c'est nécessaire
+        // dans le cas présent nécessaires en 2 endroits différents: LivresController et BDController
+        $panierServices->ajouterAuPanier($id);
         return $this->redirectToRoute('panier');
     }
 
@@ -58,13 +43,8 @@ class PanierController extends AbstractController
      *
      * @Route("panier/retirer/{id}", name="panier_retirerdupanier")
      */
-    public function retirerDuPanier($id, SessionInterface $session){
-        $panier = $session->get('panier', []);
-        if ($panier[$id]) {
-            unset($panier[$id]);
-        }
-
-        $session->set('panier', $panier);
+    public function retirerDuPanier($id, PanierServices $panierServices){
+        $panierServices->retirerDuPanier($id);
         return $this->redirectToRoute("panier");
     }
 
