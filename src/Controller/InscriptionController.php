@@ -16,6 +16,7 @@ class InscriptionController extends AbstractController
      */
     public function new(Request $request)
     {
+        // dd($request);
         $client = new Clients();
         $client->setEmail("");
         $client->setNom("");
@@ -44,8 +45,8 @@ class InscriptionController extends AbstractController
 
             // https://riptutorial.com/symfony-forms/example/15519/create-a-simple-form-in-a-controller
             
-            return $this->render("inscription/index.html.twig", array(
-                'form' => $form->createView(),
-            ));
+            return $this->render("inscription/index.html.twig", [
+                'form' => $form->createView()],
+            );
     }
 }
