@@ -17,41 +17,35 @@ class InscriptionController extends AbstractController
     public function new(Request $request)
     {
         $client = new Clients();
-        $client->setEmail("Entrez E-mail");
-        $client->setNom("Votre nom");
-        $client->setPrenom("le prénom");
-        $client->setAdresse("rue pingouin");
-        $client->setNumero("entrez le 48");
-        $client->setCodepostal("ici le CP");
-        $client->setVille("où ta bite ?");
-        $client->setProvince("encoder province");
-        $client->setPays("Bougnoulie Intérieure");
-        $client->setMdp("pwet pwet");
+        $client->setEmail("");
+        $client->setNom("");
+        $client->setPrenom("");
+        $client->setAdresse("");
+        $client->setNumero("");
+        $client->setCodepostal("");
+        $client->setVille("");
+        $client->setProvince("");
+        $client->setPays("");
+        $client->setMdp("");
 
         $form = $this->createFormBuilder($client)
-            ->add("email", TextType::class)
-            ->add("nom", TextType::class)
-            ->add("prenom", TextType::class)
-            ->add("adresse", TextType::class)
-            ->add("numero", TextType::class)
-            ->add("codepostal", TextType::class)
-            ->add("ville", TextType::class)
-            ->add("province", TextType::class)
-            ->add("pays", TextType::class)
-            ->add("mdp", TextType::class)
+            ->add("email", TextType::class, ["label"=>"Votre E-mail"])
+            ->add("nom", TextType::class, ["label"=>"Votre nom"])
+            ->add("prenom", TextType::class, ["label"=>"Votre prénom"])
+            ->add("adresse", TextType::class, ["label"=>"Votre adresse"])
+            ->add("numero", TextType::class, ["label"=>"numéro de maison"])
+            ->add("codepostal", TextType::class, ["label"=>"Code postal"])
+            ->add("ville", TextType::class, ["label"=>"Votre ville"])
+            ->add("province", TextType::class, ["label"=>"Province"])
+            ->add("pays", TextType::class, ["label"=>"Pays"])
+            ->add("mdp", TextType::class, ["label"=>"Mot de passe"])
             ->add("save", SubmitType::class, ["label"=>"Soumettre"])
             ->getForm();
 
-            // $form->handleRequest($request);
-            // if ($form->isValid()) {
-                
-            //     // $data is now changed with the user input
-            //     // Do something with the data
-            // }
+            // https://riptutorial.com/symfony-forms/example/15519/create-a-simple-form-in-a-controller
             
             return $this->render("inscription/index.html.twig", array(
                 'form' => $form->createView(),
-                // ...
             ));
     }
 }
