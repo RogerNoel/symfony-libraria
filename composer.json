@@ -27,7 +27,7 @@
         "symfony/string": "*",
         "symfony/translation": "*",
         "symfony/twig-pack": "*",
-        "symfony/validator": "*",
+        "symfony/validator": "5.0.*",
         "symfony/web-link": "*",
         "symfony/yaml": "*"
     },
