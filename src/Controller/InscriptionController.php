@@ -34,14 +34,28 @@ class InscriptionController extends AbstractController
             // $form->getData() holds the submitted values
             // but, the original `$task` variable has also been updated
             $client = $form->getData();
+            // dd($client);
+            // App\Entity\Clients {#392 ▼
+            //     -id: null
+            //     -email: "maman@moi.com"
+            //     -nom: "babouin"
+            //     -prenom: "marcel"
+            //     -adresse: "rue singe"
+            //     -numero: "c"
+            //     -codepostal: "1000"
+            //     -ville: "bruxelles"
+            //     -province: "brabant"
+            //     -pays: "singe"
+            //     -mdp: "fsq"
+            //   }
     
-            // ... perform some action, such as saving the task to the database
-            // for example, if Task is a Doctrine entity, save it!
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->persist($client);
             $entityManager->flush();
     
-            return $this->redirectToRoute('panier');
+            return $this->redirectToRoute('panier', [
+                'nom' => $client->getNom() // rien ne passe au template ...
+            ]);
         }
 
 

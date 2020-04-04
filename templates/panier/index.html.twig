@@ -8,8 +8,11 @@
     .example-wrapper code { background: #F5F5F5; padding: 2px 6px; }
 </style>
 
+    {# <p>Bonjour {{ nom }}</p>   #}
+
+
 <div class="example-wrapper">
-    <h1>Votre panier</h1>
+    <h1>Votre panier  </h1>
     {% if items | length > 0 %} {# filtre qui ne renvoie que la longueur du tableau; si > 0, le panier existe et n'est pas vide #}
         <table class="table">
             <thead>
