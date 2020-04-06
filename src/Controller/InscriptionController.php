@@ -6,7 +6,6 @@ use App\Entity\Clients;
 use App\Form\ClientInscriptionType;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
-use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 
@@ -36,7 +35,7 @@ class InscriptionController extends AbstractController
             $hash = $encoder->encodePassword($client, $client->getMdp()); // ... $encoder est en relation avec les encoders de secutiy.yaml ...
                 // il sait donc que pour App\Entity\Clients, il doit utiliser l'algo Bcrypt
             $client->setMdp($hash);
-            
+
             $client = $form->getData();
     
             $entityManager = $this->getDoctrine()->getManager();
