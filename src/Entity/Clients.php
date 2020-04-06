@@ -198,6 +198,7 @@ class Clients implements UserInterface
 
         return $this;
     }
+    // les méthodes qui suivent doivent obligatoirement être mentionnées vu qu'elles appartiennt à l'interface
     public function getUsername()
     {
         return $this->username;
