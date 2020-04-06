@@ -3,11 +3,13 @@
 namespace App\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Security\Core\User\UserInterface;
+use Symfony\Component\Validator\Constraints as Assert; // pour valider des champs de formulaires
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\ClientsRepository")
  */
-class Clients
+class Clients implements UserInterface
 {
     /**
      * @ORM\Id()
@@ -63,8 +65,14 @@ class Clients
 
     /**
      * @ORM\Column(type="string", length=255)
+     * @Assert\Length(min=8, minMessage = "Le mot de passe doit contenir au minimum 8 caractères")
      */
     private $mdp;
+
+    /**
+     * @Assert\EqualTo(propertyPath="mdp", message="Les mots de passe ne correspondent pas.")
+     */
+    public $confirmation_mdp; // champ supplémentaire qui n'a rien à voir avec la bdd->sert à confirmer le mdp à l'inecription
 
     public function getId(): ?int
     {
@@ -189,5 +197,30 @@ class Clients
         $this->mdp = $mdp;
 
         return $this;
+    }
+    public function getUsername()
+    {
+        return $this->username;
+    }
+
+    public function getSalt()
+    {
+        // you *may* need a real salt depending on your encoder
+        // see section on salt below
+        return null;
+    }
+
+    public function getPassword()
+    {
+        return $this->password;
+    }
+
+    public function getRoles()
+    {
+        return array('ROLE_USER');
+    }
+
+    public function eraseCredentials()
+    {
     }
 }

@@ -1,4 +1,8 @@
 security:
+    encoders:                   # on déclare un encodeur ...
+        App\Entity\Clients:     # ... pour l'entité clients ...
+            algorithm: bcrypt   # ... on choisit l'algorithme et ensuite on édite le contrôleur car avant de persist() il faut crypter le mdp
+
     # https://symfony.com/doc/current/security.html#where-do-users-come-from-user-providers
     providers:
         users_in_memory: { memory: null }

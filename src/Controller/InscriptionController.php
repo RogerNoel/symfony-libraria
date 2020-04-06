@@ -4,16 +4,18 @@ namespace App\Controller;
 
 use App\Entity\Clients;
 use App\Form\ClientInscriptionType;
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Security\Core\User\UserInterface;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 
 class InscriptionController extends AbstractController
 {
     /**
      * @Route("/inscription", name="inscription")
      */
-    public function new(Request $request)
+    public function new(Request $request, UserPasswordEncoderInterface $encoder)
     {
         $client = new Clients();
         $client->setEmail("");
@@ -31,33 +33,17 @@ class InscriptionController extends AbstractController
 
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
-            // $form->getData() holds the submitted values
-            // but, the original `$task` variable has also been updated
+            $hash = $encoder->encodePassword($client, $client->getMdp());
+            $client->setMdp($hash);
             $client = $form->getData();
-            // dd($client);
-            // App\Entity\Clients {#392 ▼
-            //     -id: null
-            //     -email: "maman@moi.com"
-            //     -nom: "babouin"
-            //     -prenom: "marcel"
-            //     -adresse: "rue singe"
-            //     -numero: "c"
-            //     -codepostal: "1000"
-            //     -ville: "bruxelles"
-            //     -province: "brabant"
-            //     -pays: "singe"
-            //     -mdp: "fsq"
-            //   }
     
             $entityManager = $this->getDoctrine()->getManager();
+            
             $entityManager->persist($client);
             $entityManager->flush();
     
-            return $this->redirectToRoute('panier', [
-                'nom' => $client->getNom() // rien ne passe au template ...
-            ]);
+            return $this->redirectToRoute('panier');
         }
-
 
             return $this->render("inscription/index.html.twig", [
                 'form' => $form->createView()],

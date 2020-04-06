@@ -4,6 +4,7 @@ namespace App\Form;
 
 use App\Entity\Clients;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\PasswordType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
@@ -23,7 +24,8 @@ class ClientInscriptionType extends AbstractType
             ->add('ville')
             ->add('province')
             ->add('pays')
-            ->add('mdp', TextType::class, ["label"=>"Mot de passe"])
+            ->add('mdp', PasswordType::class, ["label"=>"Mot de passe 8 caractères minimum"])
+            ->add('confirmation_mdp', PasswordType::class, ["label"=>"Répétez le mot de passe"]) // -> ne fait pas partie de la BDD -> il faut créer une variable correspondante dans l'entité
             ->add('Soumettre', SubmitType::class)
         ;
     }
