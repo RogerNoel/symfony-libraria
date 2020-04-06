@@ -33,7 +33,8 @@ class InscriptionController extends AbstractController
 
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
-            $hash = $encoder->encodePassword($client, $client->getMdp());
+            $hash = $encoder->encodePassword($client, $client->getMdp()); // ... $encoder est en relation avec les encoders de secutiy.yaml ...
+                // il sait donc que pour App\Entity\Clients, il doit utiliser l'algo Bcrypt
             $client->setMdp($hash);
             $client = $form->getData();
     
