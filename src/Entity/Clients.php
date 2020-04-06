@@ -72,7 +72,7 @@ class Clients implements UserInterface
     /**
      * @Assert\EqualTo(propertyPath="mdp", message="Les mots de passe ne correspondent pas.")
      */
-    public $confirmation_mdp; // champ supplémentaire qui n'a rien à voir avec la bdd->sert à confirmer le mdp à l'inecription
+    public $confirmation_mdp; // champ supplémentaire qui n'a rien à voir avec la bdd->sert à confirmer le mdp à l'inscription
 
     public function getId(): ?int
     {
