@@ -5,9 +5,11 @@ namespace App\Entity;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Component\Validator\Constraints as Assert; // pour valider des champs de formulaires
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\ClientsRepository")
+ * @UniqueEntity("email", message = "Cet E-mail est déjà enregistré")
  */
 class Clients implements UserInterface
 {
@@ -20,6 +22,7 @@ class Clients implements UserInterface
 
     /**
      * @ORM\Column(type="string", length=255)
+     * @Assert\Email(message = "Adresse E-mail non valide")
      */
     private $email;
 
