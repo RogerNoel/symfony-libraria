@@ -397,15 +397,21 @@ class PlaygroundController extends AbstractController
      */
     public function dates() {
         echo "<h1>Manipuler des dates</h1>
+
         <h2>Le timestamp UNIX</h2>
+
         <p>Nombre de secondes écoulées depuis le 1° janvier 1970 jusqu'à une date donnée.</br>
         Il va servir par exemple à comparer deux dates.</br>
         Un autre intérêt est qu'il va être le même pour un moment donné quel que soit le fuseau horaire.</p>
+
         <h2>Obtenir un timestamp et le timestamp actuel en PHP</h2>
+
         <p>Pour le timestamp à la date actuelle, on utilise la fonction <em>time()</em></p>";
         print_r(time());
         echo "</br>";
+
         echo "<h3>Obtenir le timestamp d'une date donnée en PHP</h3>
+
         <p>Il existe 2 fonctions:</p>
         <ul>
             <li><em>mktime()</em> retourne le timestamp d'une date</li>
@@ -428,7 +434,9 @@ class PlaygroundController extends AbstractController
         echo "Timestamp au 11 mai 1980 à 14 heures: (GMT) " . $tempsgmt . "</br>";
         echo "... étrangement c'est la même chose chez moi sur mon pc, alors qu'il devrait y avoir une différence de 3600 secondes ... </br>
         Normalement, la fonction mktime() transforme mon heure en heure GMT avant de calculer le timestamp, gmmktime() par contre, considère l'heure que je lui donne comme une heure GMT.
+
         <h3>Obtenir un timestamp à partir d'une chaîne de caractères</h3>
+
         <p>Il faut utiliser la fonction <em>strtotime()</em> qui transforme une chaîne de caractères <strong>de format <em>date</em> ou <em>temps</em></strong> en timestamp. Attention donc au format qui sera passé en argument!</br>
         Les dates en argument devront être écrites en anglais. Les formats les plus courants sont (attention aux tirets et/ou virgules):
             <ul>
@@ -443,7 +451,123 @@ class PlaygroundController extends AbstractController
         echo "<p>On peut ajouter l'heure à cette date, sous le format 12:30:45</p>";
         echo strtotime("05/11/2000 12:30:45");
         echo "<p>D'autres formats sont acceptés comme par exemple, le nom d'un jour (sunday...), des moments (now, tomorrow...), notation ordinale, ago, avec des + et des -, ... voir documentation.</p>";
-        
+        echo strtotime("next monday 12:0:0");
+        echo "</br>";
+        echo strtotime("next monday 13:0:0");
+        echo "</br>";
+        echo strtotime("yesterday");
+
+        echo "<h3>Obtenir une date à partir d'un timestamp</h3>";
+
+        echo "<p>Avec la fonction <em>getdate()</em> qui prend un timestamp en argument.</p>";
+        // test en print_r sur getdate()
+        print_r(getdate(100005));
+        echo "<p>La fonction retourne un tableau associatif.</p>";
+        $present = getdate();
+        foreach ($present as $cle=>$valeur){
+            echo "La clé " . $cle . " possède la valeur " . $valeur . "</br>";
+        }
+        echo "Avec les clés mday = n° du jour dans le mois, wday = n° du jour de la semaine, mon = n° du mois, yday = n° du jour dans l'année"; 
+
+        echo "<h2>Obtenir et formater une date en PHP.</h2>";
+
+        echo "<h3>La fonction <em>date()</em> et les formats de date.</h3>";
+
+        echo "<p>Cette fonction permet d'obtenir une date selon le format de notre choix.</br> Elle prend deux arguments:</p>";
+        // echo "<ol><li>format de date souhaité, argument obligatoire</li><li>timestamp correspondant à la date qu'on souhaite retourner, argument optionnel</li></ol>
+        // <p>Si le timestamp est omis, la date courante sera utilisée. Pour l'argument 1 (format de la date), il s'agit d'une série de caractères dans laquelle on choisit celui qu'on désire: chacun d'eux formate différemment la date. En voici un exemple:</p>";  
+        echo date("l d m Y h:i:s", 500000000);
+        echo "</br>";
+        echo date("l d m Y h:i:s");
+      
+          echo "<h3>La gestion du décalage horaire.</h3>";
+
+        // date() est sensé donner l'heure locale ...
+        echo "date() est sensé donner l'heure locale: " . date("l d m Y h:i:s");
+        echo "</br>";
+        // ... alors que gmdate() est sensé donner l'heure gmt...
+        // manifestement mon pc ne sait ni où il est ni quand il est ...
+        echo "gmdate() est sensé donner l'heure gmt";
+
         return $this->render("playground/index.html.twig", ["controller_name"=>"Dates"]);
     }
+
+    /**
+     * @Route("playground/superglobales", name="superglobales")
+     */
+    public function superglobales(){
+        echo "<h1>Les variables superglobales</h1>";
+        echo "<p>Elles sont créées automatiquement par PHP et elles seront accessibles n'importe où dans le script.</br>
+        Il y a 9 superglobales; ce sont des tableaux qui contiennent des groupes de variables très différentes.</br>
+        Elle sont écrites en MAJUSCULES.</br>
+        Toutes, sauf GLOBALS commencent avec un _underscore.</br>
+        Les voici:</p>";
+        echo '<ul>
+                <li>$GLOBALS</li>
+                <li>$_SERVER</li>
+                <li>$_REQUEST</li>
+                <li>$_GET</li>
+                <li>$_POST</li>
+                <li>$_FILES</li>
+                <li>$_ENV</li>
+                <li>$_COOKIE</li>
+                <li>$_SESSION</li>
+            </ul>';
+        echo '<h2>Superglobale $GLOBALS</h2>';
+        echo "<p>C'est un tableau associatif qui stocke automatiuqement toutes les variables globales déclarées dans le script.</br>
+        Pour rappel, le mot clé <em>global</em> sert à accéder à une variable définie dans l'espace global depuis un espace local.</br>
+        Ce mot-clé est lié au contenu de GLOBALS et souvent, il sera équivalent d'utiliser <em>global</em> ou GLOBALS pour accéder à une variable en particulier depuis un espace local.</p>";
+        // voici un exemple d'utilisation (ne fonctionne pas sous symfony)
+        $prenom = "Roger";
+        $nom = "Noel";
+        function presentation () {
+            global $prenom, $nom; // ici on se donne accès aux variables globales
+            echo "Je suis $prenom $nom.";
+        }
+
+        function presentation2(){
+            echo "</br>Je suis $GLOBALS[prenom] $GLOBALS[nom]";
+        }
+
+        echo '<h2>Superglobale $_SERVER</h2>';
+        echo "<p>Tableau associatif qui contient des variables définies par le serveur utilisé et aussi des infos relatives au script.</p>";
+        //print_r($_SERVER);
+        echo $_SERVER['PHP_SELF']."</br>";
+        echo $_SERVER['SERVER_NAME']."</br>";
+        //echo $_SERVER['SERVER_ADDR']."</br>";
+        echo $_SERVER['REMOTE_ADDR']."</br>";
+        echo $_SERVER['HTTPS']."</br>";
+        echo $_SERVER['REQUEST_TIME']."</br>";
+
+        echo '<h2>Superglobale $_REQUEST</h2>';
+        echo "<p>Tableau associatif qui contient des variables envoyées via HTTP GET, HTTP POST et par les cookies HTTP.</p>";
+
+        echo '<h2>Superglobale $_ENV</h2>';
+        echo "<p>Tableau associatif qui contient des variables liées à l'environnement dans lequel s'exécute le script.</p>";
+        echo $_ENV['APP_ENV']."</br>";
+        //var_dump($_ENV);
+
+        echo '<h2>Superglobale $FILES</h2>';
+        echo "<p>Tableau qui contient des infos sur un fichier téléchargé. Elle est utile quand on affre la possibilité aux utilisateurs de nous envoyer des fichiers.</p>";
+        //var_dump($_FILES);
+
+        echo '<h2>Superglobale $_GET et $_POST</h2>';
+        echo "<p>Utiles pour manipuler les infos envoyées via un formulaire. </p>";
+
+        echo '<h2>Superglobale $_COOKIE</h2>';
+        echo "<p>Tableau associatif qui contient toutes la variables passées via les cookies HTTP.</p>";
+
+        echo '<h2>Superglobale $_SESSION</h2>';
+        echo "<p>Tableau associatif qui contient toutes la variables de session.</p>";
+        
+        return $this->render("playground/index.html.twig", ["controller_name"=>"Superglobales"]);
+    }
+    /**
+     * @Route("playground/cookies", name="cookies")
+     */
+    public function cookies(){
+        echo "page 200";
+        return $this->render("playground/index.html.twig", ["controller_name"=>"Cookies"]);
+    }
+
 }
